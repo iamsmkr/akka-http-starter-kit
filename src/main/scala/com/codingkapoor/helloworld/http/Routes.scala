@@ -15,6 +15,7 @@ private[helloworld] trait Routes extends JsonSupport {
 
   lazy val routes: Route = pathSingleSlash {
     get {
+      Thread.sleep(180000)
       complete(StatusCodes.OK, "Hello World!")
     }
   }
