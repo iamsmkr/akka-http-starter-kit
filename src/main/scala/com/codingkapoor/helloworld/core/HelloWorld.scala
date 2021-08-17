@@ -13,7 +13,10 @@ object HelloWorld extends App with Server {
   val appConf = RuntimeEnvironment.appConf
   val serverConf = ServerConf(appConf)
 
+  // Always make sure to pass appConf to the actor system while creating an actor system instance
+  // otherwise it will be created with default configurations
   implicit val system = ActorSystem("helloworld", appConf)
+
   implicit lazy val materializer = ActorMaterializer()
   implicit lazy val context: ExecutionContext = system.dispatcher
 
