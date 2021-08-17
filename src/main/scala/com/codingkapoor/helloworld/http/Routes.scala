@@ -5,6 +5,9 @@ import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.server.Route
 import akka.util.Timeout
 import akka.stream.ActorMaterializer
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 import scala.concurrent.duration._
 
 private[helloworld] trait Routes extends JsonSupport {
@@ -15,8 +18,9 @@ private[helloworld] trait Routes extends JsonSupport {
 
   lazy val routes: Route = pathSingleSlash {
     get {
-      Thread.sleep(180000)
-      complete(StatusCodes.OK, "Hello World!")
+      complete {
+        Future.unit.map(_ => Thread.sleep(180000)).map(_ => StatusCodes.OK -> "Hello World!")
+      }
     }
   }
 }
